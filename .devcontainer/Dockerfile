@@ -12,6 +12,8 @@ RUN mkdir /tmp/container \
     # supporting installs
     && apt update \
     # primary installs
+    && apt install -y \
+        make \
     # cleanup
     && apt autoremove -y \
     && apt clean -y \
