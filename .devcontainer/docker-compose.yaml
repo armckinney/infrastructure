@@ -1,0 +1,11 @@
+services:
+  devcontainer:
+    build:
+      dockerfile: ./.devcontainer/Dockerfile
+      context: ..
+    volumes:
+      - ..:/workspaces/infrastructure:cached
+      # git configuration mounting
+      - ~/.gitconfig:/root/.gitconfig:ro
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    privileged: true
