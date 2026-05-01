@@ -30,8 +30,8 @@ variable "region" {
   type        = string
   default     = "undefined"
   validation {
-    condition     = contains(["eastus", "centralus", "westus"], var.region)
-    error_message = "Tag 'region' must be either: eastus, centralus, westus"
+    condition     = contains(["undefined", "eastus", "centralus", "westus"], var.region)
+    error_message = "Tag 'region' must be either: undefined, eastus, centralus, westus"
   }
 }
 
@@ -60,8 +60,8 @@ variable "criticality" {
   type        = string
   default     = "undefined"
   validation {
-    condition     = contains(["low", "medium", "high"], var.criticality)
-    error_message = "Tag 'criticality' must be either: low, medium, high"
+    condition     = contains(["undefined", "low", "medium", "high"], var.criticality)
+    error_message = "Tag 'criticality' must be either: undefined, low, medium, high"
   }
 }
 

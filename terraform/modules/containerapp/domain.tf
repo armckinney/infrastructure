@@ -1,7 +1,7 @@
 resource "azurerm_container_app_custom_domain" "this" {
   count = var.dns_zone != null ? 1 : 0
 
-  name                                     = trimsuffix(trimprefix(azurerm_dns_txt_record.this.fqdn, "asuid."), ".")
+  name                                     = trimsuffix(trimprefix(azurerm_dns_txt_record.this[0].fqdn, "asuid."), ".")
   container_app_id                         = azurerm_container_app.this.id
   certificate_binding_type                 = "SniEnabled"
   container_app_environment_certificate_id = azurerm_container_app_environment_certificate.this[0].id

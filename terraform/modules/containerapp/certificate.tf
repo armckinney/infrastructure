@@ -21,7 +21,7 @@ resource "random_password" "this" {
   special = true
 
   keepers = {
-    rotation = time_rotating.this.id
+    rotation = time_rotating.this[0].id
   }
 }
 #endregion
@@ -32,7 +32,7 @@ resource "acme_registration" "this" {
   count = var.dns_zone != null ? 1 : 0
 
   email_address   = var.organization_email
-  account_key_pem = tls_private_key.this.private_key_pem
+  account_key_pem = tls_private_key.this[0].private_key_pem
 }
 
 # request the certificate from let's encrypt
@@ -43,8 +43,8 @@ resource "acme_certificate" "this" {
   subject_alternative_names = [
     "${var.application}.${data.azurerm_dns_zone.this.name}"
   ]
-  account_key_pem          = acme_registration.this.account_key_pem
-  certificate_p12_password = random_password.this.result
+  account_key_pem          = acme_registration.this[0].account_key_pem
+  certificate_p12_password = random_password.this[0].result
 
   pre_check_delay = 60
 
@@ -66,8 +66,8 @@ resource "azurerm_container_app_environment_certificate" "this" {
 
   name                         = module.std_names.resources.azurerm_container_app_environment_certificate
   container_app_environment_id = azurerm_container_app_environment.this.id
-  certificate_blob_base64      = acme_certificate.this.certificate_p12
-  certificate_password         = acme_certificate.this.certificate_p12_password
+  certificate_blob_base64      = acme_certificate.this[0].certificate_p12
+  certificate_password         = acme_certificate.this[0].certificate_p12_password
   tags                         = local.tags
 }
 #endregion

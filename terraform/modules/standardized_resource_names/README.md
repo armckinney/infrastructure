@@ -25,11 +25,10 @@ No resources.
 | <a name="input_context"></a> [context](#input\_context) | The context for which the resource names are being generated (e.g., project, team). | `string` | `null` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | The environment for which the resource names are being generated (e.g., dev, test, prod). | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | The region for which the resource names are being generated (e.g., eastus, centralus, westus). | `string` | `"eastus"` | no |
-| <a name="input_resource_type"></a> [resource\_type](#input\_resource\_type) | The type of resource for which the name is being generated (e.g., vm, storage, network). | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_resource_types"></a> [resource\_types](#output\_resource\_types) | n/a |
+| <a name="output_resources"></a> [resources](#output\_resources) | n/a |
 <!-- END_TF_DOCS -->
