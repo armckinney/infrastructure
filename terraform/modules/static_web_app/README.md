@@ -10,11 +10,16 @@ This Terraform module provisions an Azure Static Web App, custom domain mappings
 module "static_web_app" {
   source = "git::https://github.com/armckinney/infrastructure.git//terraform/modules/static_web_app?ref=v1.0.0"
 
-  name                = "my-static-web-app"
+  application         = "my-app"
+  environment         = "dev"
   resource_group_name = "rg-my-application"
   location            = "East US 2"
   sku_tier            = "Standard"
   sku_size            = "Standard"
+
+  tags = {
+    owner = "my-team"
+  }
 
   custom_domains = [
     "example.com"

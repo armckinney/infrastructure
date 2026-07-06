@@ -10,6 +10,7 @@ module "containerapp" {
     environment = local.environment
   }
   organization_email = "test@example.com"
+  tags               = module.standardized_tags.tags
 }
 
 module "example" {
@@ -38,7 +39,9 @@ module "standardized_tags" {
 module "static_web_app" {
   source = "../../modules/static_web_app"
 
-  name                = "${local.application}-swa"
+  application         = local.application
+  environment         = var.environment
   resource_group_name = "${local.application}-rg"
   location            = "East US 2"
+  tags                = module.standardized_tags.tags
 }

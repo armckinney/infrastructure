@@ -1,5 +1,10 @@
-variable "name" {
-  description = "The name of the Static Web App"
+variable "application" {
+  description = "Name of the application to deploy"
+  type        = string
+}
+
+variable "environment" {
+  description = "Deployment Environment Name"
   type        = string
 }
 

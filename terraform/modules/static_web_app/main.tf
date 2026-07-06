@@ -7,3 +7,11 @@ terraform {
     }
   }
 }
+
+module "std_names" {
+  source = "../standardized_resource_names"
+
+  application = var.application
+  environment = var.environment
+  location    = var.location
+}
