@@ -1,0 +1,77 @@
+name: Release Orchestrator
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      bump_kind:
+        description: 'Specify release bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+          - prerelease
+          - final
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # CRITICAL: Fetches all git history/tags for Verge to calculate next version
+
+      - name: Install Verge CLI
+        run: |
+          curl -sSL https://raw.githubusercontent.com/armckinney/verge/main/install.sh | bash
+          # Ensure verge is on path
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Calculate Next Version
+        id: verge_bump
+        run: |
+          # Use manual trigger input if available; default to 'patch' for merge pushes
+          BUMP_KIND="${{ github.event.inputs.bump_kind || 'patch' }}"
+          NEXT_VERSION=$(verge bump --kind "$BUMP_KIND")
+          echo "Calculated Version: $NEXT_VERSION"
+          echo "version=$NEXT_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Configure Git Author
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Tag and Push
+        id: git_tag
+        run: |
+          VERSION="${{ steps.verge_bump.outputs.version }}"
+          git tag "$VERSION"
+          git push origin "$VERSION"
+          echo "tagged=true" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        if: steps.git_tag.outputs.tagged == 'true'
+        run: |
+          VERSION="${{ steps.verge_bump.outputs.version }}"
+          gh release create "$VERSION" \
+            --title "Release $VERSION" \
+            --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Rollback Tag on Failure
+        if: failure() && steps.git_tag.outputs.tagged == 'true'
+        run: |
+          VERSION="${{ steps.verge_bump.outputs.version }}"
+          echo "Workflow failed. Reverting pushed tag $VERSION..."
+          git push --delete origin "$VERSION" || true
+          git tag -d "$VERSION" || true
