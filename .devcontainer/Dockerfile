@@ -9,11 +9,16 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN mkdir /tmp/container \
     && cd /tmp/container \
+    # package registries
+    && echo 'deb [trusted=yes] https://repo.goreleaser.com/apt/ /' | tee /etc/apt/sources.list.d/goreleaser.list \
     # supporting installs
     && apt update \
     # primary installs
-    && apt install -y \
+    && apt-get install --no-install-recommends -y \
+        goreleaser \
         make \
+    # install verge
+    && curl -sSL https://raw.githubusercontent.com/armckinney/verge/main/install.sh | bash \
     # cleanup
     && apt autoremove -y \
     && apt clean -y \
