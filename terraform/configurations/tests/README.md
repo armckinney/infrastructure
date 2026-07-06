@@ -18,10 +18,13 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_azure_account"></a> [azure\_account](#module\_azure\_account) | ../../modules/azure_account | n/a |
+| <a name="module_azure_subscription"></a> [azure\_subscription](#module\_azure\_subscription) | ../../modules/azure_subscription | n/a |
 | <a name="module_containerapp"></a> [containerapp](#module\_containerapp) | ../../modules/containerapp | n/a |
 | <a name="module_example"></a> [example](#module\_example) | ../../modules/example | n/a |
 | <a name="module_standardized_resource_names"></a> [standardized\_resource\_names](#module\_standardized\_resource\_names) | ../../modules/standardized_resource_names | n/a |
 | <a name="module_standardized_tags"></a> [standardized\_tags](#module\_standardized\_tags) | ../../modules/standardized_tags | n/a |
+| <a name="module_static_web_app"></a> [static\_web\_app](#module\_static\_web\_app) | ../../modules/static_web_app | n/a |
 
 ## Resources
 

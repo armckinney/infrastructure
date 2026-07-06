@@ -5,7 +5,7 @@ TF_MODULES_DIR := terraform/modules
 
 .PHONY: all lint test validate secure docs fmt clean help
 
-all: lint test docs ## Run lint, test, and docs
+all: lint format test docs ## Run lint, fmt, test, and docs
 
 help: ## Show available targets
 	@awk 'BEGIN {FS = ":.*## "} /^[a-zA-Z0-9_.-]+:.*## / {printf "  %-12s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
