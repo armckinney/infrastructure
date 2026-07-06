@@ -34,3 +34,11 @@ module "standardized_tags" {
   environment = var.environment
   owner       = local.owner
 }
+
+module "static_web_app" {
+  source = "../../modules/static_web_app"
+
+  name                = "${local.application}-swa"
+  resource_group_name = "${local.application}-rg"
+  location            = "East US 2"
+}
